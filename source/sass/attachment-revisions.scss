@@ -1,0 +1,9 @@
+.attachments-browser .media-toolbar,
+.attachments-browser .uploader-inline,
+.attachments-browser .attachments {
+    display: none;
+}
+
+.attachments-browser .media-sidebar {
+    width: calc(100% - 24px);
+}

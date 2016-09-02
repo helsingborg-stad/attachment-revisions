@@ -24,5 +24,7 @@ class App
         wp_enqueue_media();
         echo '<script>var attachment_revisions_current_post_id = ' . $post->ID . '</script>';
         wp_enqueue_script('attachment-revisions', ATTACHMENTREVISIONS_URL . '/dist/js/attachment-revisions.min.js', null, '1.0.0');
+
+        wp_enqueue_style('attachment-revisions', ATTACHMENTREVISIONS_URL . '/dist/css/attachment-revisions.min.css', null, '1.0.0');
     }
 }

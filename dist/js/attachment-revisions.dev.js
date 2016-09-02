@@ -22,13 +22,27 @@ AttachmentRevisions.MediaUpload = (function ($) {
             return;
         }
 
+        console.log(wp);
+
+        var Query = wp.media.query({
+            orderby: 'date',
+            query: true,
+            type: 'image',
+            uploadedTo: -1
+        });
+
         // Creates the file uploader modal
         _fileUploader = wp.media.frames.fileUploader = wp.media({
             title: 'Media swapper',
             button: {
                 text: 'Swap',
             },
-            multiple: false
+            multiple: false,
+            states: [
+                new wp.media.controller.Library({
+                    library: Query
+                })
+            ]
         });
 
         // File uploader selection callback

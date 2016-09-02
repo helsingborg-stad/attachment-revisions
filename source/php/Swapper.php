@@ -10,6 +10,13 @@ class Swapper
         add_action('wp_ajax_attachment_revisions_swap', array($this, 'swap'));
 
         add_filter('wp_get_revision_ui_diff', array($this, 'revisionCompareUi'), 10, 3);
+
+        //add_action('admin_init', array($this, 'test'));
+    }
+
+    public function test()
+    {
+        $this->swap(31759, json_decode('{"id":31783,"title":"Helsingborgare i olika åldrar och av olika ursprung umgås.","filename":"varvinter_1800x350_9.jpg","url":"http://hbg2.dev/wp-content/uploads/2016/01/varvinter_1800x350_9.jpg","link":"http://hbg2.dev/?attachment_id=30494","alt":"","author":"1","description":"","caption":"Helsingborgare i olika åldrar och av olika ursprung umgås.","name":"helsingborgare-i-olika-aldrar-och-av-olika-ursprung-umgas","status":"inherit","uploadedTo":26987,"date":"2016-03-15T11:56:50.000Z","modified":"2016-06-23T09:02:33.000Z","menuOrder":0,"mime":"image/jpeg","type":"image","subtype":"jpeg","icon":"http://hbg2.dev/wp-includes/images/media/default.png","dateFormatted":"15 mars, 2016","nonces":{"update":"0bbf865a59","delete":"8f85cf8931","edit":"36692925af"},"editLink":"http://hbg2.dev/wp-admin/post.php?post=30494&action=edit","meta":false,"authorName":"Beth","uploadedToLink":"http://hbg2.dev/wp-admin/post.php?post=26987&action=edit","uploadedToTitle":"Front page hero","filesizeInBytes":517644,"filesizeHumanReadable":"506 KB","sizes":{"thumbnail":{"height":150,"width":150,"url":"http://hbg2.dev/wp-content/uploads/2016/01/varvinter_1800x350_9-150x150.jpg","orientation":"landscape"},"large":{"height":199,"width":1024,"url":"http://hbg2.dev/wp-content/uploads/2016/01/varvinter_1800x350_9-1024x199.jpg","orientation":"landscape"},"full":{"url":"http://hbg2.dev/wp-content/uploads/2016/01/varvinter_1800x350_9.jpg","height":350,"width":1800,"orientation":"landscape"},"medium_large":{"height":149,"width":768,"url":"http://hbg2.dev/wp-content/uploads/2016/01/varvinter_1800x350_9-768x149.jpg","orientation":"landscape"}},"height":350,"width":1800,"orientation":"landscape","compat":{"item":"","meta":""},"filesize":"506 KB","acf_errors":false}'));
     }
 
     /**
@@ -101,6 +108,9 @@ class Swapper
             array('%d')
         );
         update_post_meta($attachment->ID, 'attachment-revision-file', $file->url);
+
+        // Delete the temp version of the "swapped to" image
+        $delete = wp_delete_attachment($file->id, true);
 
         // Ajax return
         if (defined('DOING_AJAX')) {

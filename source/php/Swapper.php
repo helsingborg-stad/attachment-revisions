@@ -9,12 +9,7 @@ class Swapper
         add_action('add_meta_boxes', array($this, 'addSwapperMetaBox'));
         add_action('wp_ajax_attachment_revisions_swap', array($this, 'swap'));
 
-        add_action('add_attachment', function ($postId) {
-            _wp_put_post_revision(get_post($postId));
-        });
-
         add_filter('wp_get_revision_ui_diff', array($this, 'revisionCompareUi'), 10, 3);
-
     }
 
     /**

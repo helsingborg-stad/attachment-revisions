@@ -8,6 +8,10 @@ class Revision
     {
         add_action('init', array($this, 'activate'));
         add_action('attachment_updated', array($this, 'addRevision'), 10, 3);
+
+        add_action('add_attachment', function ($postId) {
+            _wp_put_post_revision(get_post($postId));
+        });
     }
 
     /**

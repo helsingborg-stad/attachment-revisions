@@ -80,7 +80,14 @@ class Swapper
         }
 
         // Create revision
-        $revision = _wp_put_post_revision($attachment);
+        $revisionPost = clone $attachment;
+        $now = current_time('mysql');
+        $now_gmt = current_time('mysql', 1);
+
+        $revisionPost->post_modified = $now;
+        $revisionPost->post_modified_gmt = $now_gmt;
+
+        $revision = _wp_put_post_revision($revisionPost);
         $meta = add_metadata('post', $revision, 'attachment-revision-file', $attachment->guid, true);
 
         // Update attachment

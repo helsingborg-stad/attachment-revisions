@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Attachment Revisions
  * Plugin URI:        (#plugin_url#)
- * Description:       Enables document revisions for the attachment post type
+ * Description:       Enables document revisions and media swapping for the attachment post type
  * Version:           1.0.0
  * Author:            Kristoffer Svanmark
  * Author URI:        (#plugin_author_url#)

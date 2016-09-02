@@ -50,6 +50,11 @@ class Revision
 
         // Something changed, create a revision
         // @todo Check if we can use non-private function for creating the revision
+        $now = current_time('mysql');
+        $now_gmt = current_time('mysql', 1);
+
+        $before->post_modified = $now;
+        $before->post_modified_gmt = $now_gmt;
         $revision = _wp_put_post_revision($before);
         return $revision;
     }

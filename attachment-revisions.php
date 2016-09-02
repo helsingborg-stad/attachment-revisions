@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:       Attachment Revisions
- * Plugin URI:        (#plugin_url#)
+ * Plugin URI:        http://github.com/helsingborg-stad/attachment-revisions
  * Description:       Enables document revisions and media swapping for the attachment post type
  * Version:           1.0.0
  * Author:            Kristoffer Svanmark
- * Author URI:        (#plugin_author_url#)
+ * Author URI:        http://github.com/helsingborg-stad
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       attachment-revisions

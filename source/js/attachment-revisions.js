@@ -1,1 +1,1 @@
-var AttachmentRevisions = {};
+var AttachmentRevisions = AttachmentRevisions || {};

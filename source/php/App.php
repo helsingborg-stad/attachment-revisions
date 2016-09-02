@@ -6,6 +6,6 @@ class App
 {
     public function __construct()
     {
-        new Revisions();
+        new Revision();
     }
 }

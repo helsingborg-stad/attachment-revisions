@@ -2,7 +2,7 @@
 
 namespace AttachmentRevisions;
 
-class Revisions
+class Revision
 {
     public function __construct()
     {

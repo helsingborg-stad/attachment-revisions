@@ -12,12 +12,17 @@ AttachmentRevisions.MediaUpload = (function ($) {
         }.bind(this));
     }
 
+    /**
+     * Opens a meda library upload modal
+     * @return {void}
+     */
     MediaUpload.prototype.openUploader = function() {
         if (_fileUploader) {
             _fileUploader.open();
             return;
         }
 
+        // Creates the file uploader modal
         _fileUploader = wp.media.frames.fileUploader = wp.media({
             title: 'Media swapper',
             button: {
@@ -26,20 +31,28 @@ AttachmentRevisions.MediaUpload = (function ($) {
             multiple: false
         });
 
+        // File uploader selection callback
         _fileUploader.on('select', function () {
             var selectedFile = _fileUploader.state().get('selection').first().toJSON();
 
             var data = {
                 action: 'attachment_revisions_swap',
-                id: 1,
+                id: attachment_revisions_current_post_id,
                 file: selectedFile
             };
 
             $.post(ajaxurl, data, function (response) {
-                console.log(response);
+                if (response == 'success') {
+                    location.reload();
+                    return;
+                }
+
+                alert(response + '. Aborting.');
+                return false;
             });
         });
 
+        // Open the modal
         _fileUploader.open();
 
         // Default to upload file tab

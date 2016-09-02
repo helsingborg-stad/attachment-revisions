@@ -15,11 +15,14 @@ class App
 
     public function enqueueScripts()
     {
-        if (!is_admin() || !get_post_type() === 'attachment') {
+        if (!is_admin() || !get_post_type() === 'attachment' || !isset($_GET['post'])) {
             return;
         }
 
+        global $post;
+
         wp_enqueue_media();
+        echo '<script>var attachment_revisions_current_post_id = ' . $post->ID . '</script>';
         wp_enqueue_script('attachment-revisions', ATTACHMENTREVISIONS_URL . '/dist/js/attachment-revisions.min.js', null, '1.0.0');
     }
 }

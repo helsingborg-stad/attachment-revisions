@@ -25,6 +25,12 @@ class Swapper
      */
     public function addSwapperMetaBox()
     {
+        global $post;
+
+        if (!isset($post->post_type) || $post->post_type != 'attachment') {
+            return;
+        }
+
         add_meta_box(
             'swapper',
             __('Media swapper', 'attachment-revisions'),

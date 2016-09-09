@@ -1,9 +1,9 @@
-.attachments-browser .media-toolbar,
-.attachments-browser .uploader-inline,
-.attachments-browser .attachments {
+.post-type-attachment .attachments-browser .media-toolbar,
+.post-type-attachment .attachments-browser .uploader-inline,
+.post-type-attachment .attachments-browser .attachments {
     display: none;
 }
 
-.attachments-browser .media-sidebar {
+.post-type-attachment .attachments-browser .media-sidebar {
     width: calc(100% - 24px);
 }

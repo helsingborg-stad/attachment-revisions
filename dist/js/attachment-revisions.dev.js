@@ -22,8 +22,6 @@ AttachmentRevisions.MediaUpload = (function ($) {
             return;
         }
 
-        console.log(wp);
-
         var Query = wp.media.query({
             orderby: 'date',
             query: true,

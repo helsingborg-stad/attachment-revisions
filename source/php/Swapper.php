@@ -4,6 +4,8 @@ namespace AttachmentRevisions;
 
 class Swapper
 {
+    public static $file = null;
+
     public function __construct()
     {
         add_action('add_meta_boxes', array($this, 'addSwapperMetaBox'));
@@ -105,6 +107,7 @@ class Swapper
 
         // Update attachment
         update_attached_file($attachment->ID, $newFilePath);
+
         global $wpdb;
         $wpdb->update(
             $wpdb->posts,
@@ -113,18 +116,38 @@ class Swapper
             array('%s'),
             array('%d')
         );
+
         update_post_meta($attachment->ID, 'attachment-revision-file', $file->url);
 
         // Delete the temp version of the "swapped to" image
+        add_action('delete_attachment', array($this, 'deleteAttachment'));
         $delete = wp_delete_attachment($file->id, true);
+        remove_action('delete_attachment', array($this, 'deleteAttachment'));
 
         // Ajax return
         if (defined('DOING_AJAX')) {
+            //echo json_encode($file);
             echo 'success';
             wp_die();
         }
 
         return true;
+    }
+
+    public function deleteAttachment($postId)
+    {
+        self::$file = get_attached_file($postId);
+        add_filter('wp_delete_file', array($this, 'wpDeleteFile' ));
+    }
+
+    public function wpDeleteFile($file)
+    {
+        if (!empty(self::$file) && self::$file == $file) {
+            remove_filter(current_filter(), array(__CLASS__, __FUNCTION__ ));
+            return false;
+        }
+
+        return $file;
     }
 
     /**

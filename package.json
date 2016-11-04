@@ -1,7 +1,7 @@
 {
-  "name": "attachment-revisions",
+  "name": "media-replacer",
   "version": "1.0.0",
-  "description": "Enables document revisions for the attachment post type",
+  "description": "Replace media files in the media gallery (attachments)",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

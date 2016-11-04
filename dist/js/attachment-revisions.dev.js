@@ -1,76 +1,56 @@
-var AttachmentRevisions = AttachmentRevisions || {};
+var AttatchmentRevisions = {};
 
-var AttachmentRevisions = AttachmentRevisions || {};
-AttachmentRevisions.MediaUpload = (function ($) {
+jQuery(document).ready(function ($) {
 
-    var _fileUploader = null;
+    var mediaselector = null;
 
-    function MediaUpload() {
-        $(document).on('click', '[data-attachment-revisions-action="swap-media"]', function (e) {
-            e.preventDefault();
-            this.openUploader();
-        }.bind(this));
-    }
+    // Replace
+    $('[data-action="media-replacer-replace"]').on('click', function () {
 
-    /**
-     * Opens a meda library upload modal
-     * @return {void}
-     */
-    MediaUpload.prototype.openUploader = function() {
-        if (_fileUploader) {
-            _fileUploader.open();
+        if (!mediaselector) {
+            mediaselector = wp.media({
+                title: 'Select replacement file',
+                button: {
+                    text: 'Replace'
+                },
+                multiple: false
+            });
+
+            // On mediaselector select
+            mediaselector.on('select', function () {
+                var selected = mediaselector.state().get('selection').first().toJSON().id;
+
+                if (typeof selected != 'undefined') {
+                    $('[name="media-replacer-replace-with"]').val(selected).closest('form').submit();
+                } else {
+                    alert('You did not select a file. Media will not be replaced.');
+                }
+            });
+        }
+
+        // Open the media selector
+        var mediaselectorElement = $(mediaselector.open().el);
+
+        // Click the upload button
+        mediaselectorElement.find('.media-router > a:first-child').trigger('click');
+
+    });
+
+    // Revision
+    $('#media-replace-revisions [data-restore]').on('click', function () {
+        if ($(this).hasClass('selected')) {
+            $('[name="media-replace-restore"]').val('');
+            $(this).removeClass('selected');
             return;
         }
 
-        var Query = wp.media.query({
-            orderby: 'date',
-            query: true,
-            type: 'image',
-            uploadedTo: -1
-        });
+        $('#media-replace-revisions li.selected').removeClass('selected');
 
-        // Creates the file uploader modal
-        _fileUploader = wp.media.frames.fileUploader = wp.media({
-            title: 'Media swapper',
-            button: {
-                text: 'Swap',
-            },
-            multiple: false,
-            states: [
-                new wp.media.controller.Library({
-                    library: Query
-                })
-            ]
-        });
+        var path = $(this).data('restore');
+        $('[name="media-replace-restore"]').val(path);
+        $(this).addClass('selected');
+        return;
+    });
 
-        // File uploader selection callback
-        _fileUploader.on('select', function () {
-            var selectedFile = _fileUploader.state().get('selection').first().toJSON();
+});
 
-            var data = {
-                action: 'attachment_revisions_swap',
-                id: attachment_revisions_current_post_id,
-                file: selectedFile
-            };
-
-            $.post(ajaxurl, data, function (response) {
-                if (response == 'success') {
-                    location.reload();
-                    return;
-                }
-
-                alert(response + '. Aborting.');
-                return false;
-            });
-        });
-
-        // Open the modal
-        _fileUploader.open();
-
-        // Default to upload file tab
-        $('.media-router a:first-of-type').trigger('click');
-    };
-
-    return new MediaUpload();
-
-})(jQuery);

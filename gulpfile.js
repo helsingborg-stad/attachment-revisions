@@ -33,7 +33,6 @@ gulp.task('sass-dev', function() {
 // Concatenate & Minify JS
 gulp.task('scripts-dist', function() {
     gulp.src([
-            'source/js/attachment-revisions.js',
             'source/js/**/*.js',
         ])
         .pipe(concat('attachment-revisions.dev.js'))

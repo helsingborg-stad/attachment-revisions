@@ -1,3 +1,3 @@
-# Attachment Revisions
+# Media Replacer
 
-Enables document revisions for the attachment post type
+Replace media files in the media gallery (attachments)

@@ -1,6 +1,6 @@
 <?php
 
-namespace AttachmentRevisions\Vendor;
+namespace AttatchmentRevisions\Vendor;
 
 /**
  * A PSR-4 compatible class loader.

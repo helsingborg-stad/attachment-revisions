@@ -184,9 +184,9 @@ class App
         // Revision button
         $revisions = (array) get_post_meta(get_the_id(), self::$revisionMetaKey, true);
         $revisions = array_reverse($revisions, true);
-        $html .= '<a href="#TB_inline?width=600&height=550&inlineId=media-replace-revisions-thickbox" class="thickbox button-secondary button-large">' . __('Media revisions', 'media-replacer') . '</a>';
 
         if (count($revisions)) {
+            $html .= '<a href="#TB_inline?width=600&height=550&inlineId=media-replace-revisions-thickbox" class="thickbox button-secondary button-large">' . __('Media revisions', 'media-replacer') . '</a>';
             $html .= '<div id="media-replace-revisions-thickbox" style="display:none;"><ul id="media-replace-revisions">';
         }
 

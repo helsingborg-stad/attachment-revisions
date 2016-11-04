@@ -177,8 +177,10 @@ class App
         wp_enqueue_media();
         $uploadDir = wp_upload_dir();
 
+        $mime =  mime_content_type($uploadDir['basedir'] . '/' . get_post_meta(get_the_id(), '_wp_attached_file', true));
+
         // Media replace button
-        $html = '<button type="button" class="button-secondary button-large" data-action="media-replacer-replace">' . __('Replace media', 'media-replacer') . '</button>
+        $html = '<button type="button" class="button-secondary button-large" data-action="media-replacer-replace" data-mime="' . $mime . '">' . __('Replace media', 'media-replacer') . '</button>
                  <input type="hidden" name="media-replacer-replace-with">';
 
         // Revision button

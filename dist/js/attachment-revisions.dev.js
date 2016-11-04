@@ -7,13 +7,18 @@ jQuery(document).ready(function ($) {
     // Replace
     $('[data-action="media-replacer-replace"]').on('click', function () {
 
+        var mimeType = $(this).data('mime');
+
         if (!mediaselector) {
             mediaselector = wp.media({
                 title: 'Select replacement file',
                 button: {
                     text: 'Replace'
                 },
-                multiple: false
+                multiple: false,
+                library: {
+                    type: mimeType
+                }
             });
 
             // On mediaselector select

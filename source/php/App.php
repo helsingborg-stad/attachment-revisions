@@ -213,7 +213,7 @@ class App
         }
 
         $fields['media_replacer'] = array(
-            'laabel' => '',
+            'label' => '',
             'input' => 'html',
             'html' => $html
         );

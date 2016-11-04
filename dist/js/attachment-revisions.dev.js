@@ -8,6 +8,7 @@ jQuery(document).ready(function ($) {
     $('[data-action="media-replacer-replace"]').on('click', function () {
 
         var mimeType = $(this).data('mime');
+        var mimeParts = mimeType.split('/');
 
         if (!mediaselector) {
             mediaselector = wp.media({
@@ -17,7 +18,8 @@ jQuery(document).ready(function ($) {
                 },
                 multiple: false,
                 library: {
-                    type: mimeType
+                    type: mimeParts[0],
+                    subtype: mimeParts[1]
                 }
             });
 
@@ -35,9 +37,12 @@ jQuery(document).ready(function ($) {
 
         // Open the media selector
         var mediaselectorElement = $(mediaselector.open().el);
+        $('.media-router a:first-of-type').trigger('click');
 
-        // Click the upload button
-        mediaselectorElement.find('.media-router > a:first-child').trigger('click');
+        $(document).on('click', '.media-router > a', function () {
+            $('.attachment-preview:not(.type-' + mimeParts[0] + '), .attachment-preview:not(.subtype-' + mimeParts[1] + ')')
+                    .parent('li').remove();
+        });
 
     });
 

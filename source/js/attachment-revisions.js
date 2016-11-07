@@ -58,16 +58,14 @@ jQuery(document).ready(function ($) {
     });
 
     // Revision
-    $(document).on('click', '#media-replace-revisions [data-restore]', function () {
-        console.log("REVISIONS");
-
+    $(document).on('click', '.media-replace-revisions [data-restore]', function () {
         if ($(this).hasClass('selected')) {
             $('[name="media-replace-restore"]').val('');
             $(this).removeClass('selected');
             return;
         }
 
-        $('#media-replace-revisions li.selected').removeClass('selected');
+        $('.media-replace-revisions li.selected').removeClass('selected');
 
         var path = $(this).data('restore');
         $('[name="media-replace-restore"]').val(path);

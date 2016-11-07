@@ -13,7 +13,7 @@
     display: none;
 }
 
-#media-replace-revisions li {
+.media-replace-revisions li {
     background-color: #F5F5F5;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 
-#media-replace-revisions li.selected {
+.media-replace-revisions li.selected {
     background: #0085ba;
     border: 1px solid #0073aa;
     border-color: #0073aa #006799 #006799;

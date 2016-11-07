@@ -193,8 +193,8 @@ class App
         $revisions = array_reverse($revisions, true);
 
         if (count($revisions) > 0) {
-            $html .= '<a href="#TB_inline?width=600&height=550&inlineId=media-replace-revisions-' . $post->ID . '" class="thickbox button-secondary button-large" data-action="media-replacer-revisions" data-edit-link="' . get_edit_post_link($post->ID) . '">' . __('Media revisions', 'media-replacer') . '</a>';
-            $html .= '<div id="media-replace-revisions-thickbox" style="display:none;"><ul id="media-replace-revisions-' . $post->ID . '" class="media-replace-revisions">';
+            $html .= '<a href="#TB_inline?width=600&height=550&inlineId=media-replace-revisions-thickbox-' . $post->ID . '" class="thickbox button-secondary button-large" data-action="media-replacer-revisions" data-edit-link="' . get_edit_post_link($post->ID) . '">' . __('Media revisions', 'media-replacer') . '</a>';
+            $html .= '<div id="media-replace-revisions-thickbox-' . $post->ID . '" style="display:none;"><ul class="media-replace-revisions">';
         }
 
         foreach ($revisions as $time => $path) {

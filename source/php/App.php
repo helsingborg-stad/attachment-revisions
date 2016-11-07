@@ -13,6 +13,9 @@ class App
         add_action('edit_attachment', array($this, 'restoreRevision'));
 
         add_filter('attachment_fields_to_edit', array($this, 'formFields'), 10, 2);
+
+        add_filter('wp_get_attachment_image_src', array($this, 'preventCache'));
+        add_filter('wp_prepare_attachment_for_js', array($this, 'jsPreventCache'));
     }
 
     public function enqueueScripts()
@@ -22,7 +25,7 @@ class App
             return;
         }
 
-        wp_enqueue_style('media-replaer', ATTACHMENT_REVISIONS_URL . '/dist/css/attachment-revisions.min.css', array(), '1.0.0');
+        wp_enqueue_style('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/css/attachment-revisions.min.css', array(), '1.0.0');
         wp_enqueue_script('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/js/attachment-revisions.min.js', array(), '1.0.0', true);
     }
 
@@ -226,5 +229,37 @@ class App
         );
 
         return $fields;
+    }
+
+    public function preventCache($attributes)
+    {
+        if (!is_admin() || empty($attributes[0])) {
+            return $attributes;
+        }
+
+        if (strpos($attr[0], '?') === false) {
+            $attributes[0] .= '?_t=' . time();
+        } else {
+            $attributes[0] .= '&_t=' . time();
+        }
+
+        return $attributes;
+    }
+
+    public function jsPreventCache($response)
+    {
+        if (!is_admin()) {
+            return $response;
+        }
+
+        if (strpos($response['url'], '?') !== false) {
+            $response['url'] .= (strpos($response['url'], '?') === false ? '?' : '&') . '_t=' . time();
+        }
+
+        foreach ($response['sizes'] as $sizeName => $size) {
+            $response['sizes'][$sizeName]['url'] .= (strpos($size['url'], '?') === false ? '?' : '&') . '_t=' . time();
+        }
+
+        return $response;
     }
 }

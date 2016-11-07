@@ -5,7 +5,12 @@ jQuery(document).ready(function ($) {
     var mediaselector = null;
 
     // Replace
-    $('[data-action="media-replacer-replace"]').on('click', function () {
+    $(document).on('click', '[data-action="media-replacer-replace"]', function () {
+
+        if ($(this).parents('.media-modal').length) {
+            location.href = $(this).data('edit-link');
+            return;
+        }
 
         var mimeType = $(this).data('mime');
         var mimeParts = mimeType.split('/');
@@ -43,11 +48,19 @@ jQuery(document).ready(function ($) {
             $('.attachment-preview:not(.type-' + mimeParts[0] + '), .attachment-preview:not(.subtype-' + mimeParts[1] + ')')
                     .parent('li').remove();
         });
+    });
 
+    $(document).on('click', '[data-action="media-replacer-revisions"]', function () {
+        if ($(this).parents('.media-modal').length) {
+            location.href = $(this).data('edit-link');
+            return false;
+        }
     });
 
     // Revision
-    $('#media-replace-revisions [data-restore]').on('click', function () {
+    $(document).on('click', '#media-replace-revisions [data-restore]', function () {
+        console.log("REVISIONS");
+
         if ($(this).hasClass('selected')) {
             $('[name="media-replace-restore"]').val('');
             $(this).removeClass('selected');

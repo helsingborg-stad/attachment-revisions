@@ -28,3 +28,8 @@
     font-weight: bold;
     color: #fff;
 }
+
+#TB_overlay,
+#TB_window {
+    z-index: 999999 !important;
+}

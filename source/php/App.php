@@ -11,13 +11,14 @@ class App
         add_action('admin_enqueue_scripts', array($this, 'enqueueScripts'));
         add_action('edit_attachment', array($this, 'replaceMedia'));
         add_action('edit_attachment', array($this, 'restoreRevision'));
-        add_filter('attachment_fields_to_edit', array($this, 'formFields'));
+
+        add_filter('attachment_fields_to_edit', array($this, 'formFields'), 10, 2);
     }
 
     public function enqueueScripts()
     {
         global $current_screen;
-        if ($current_screen->id != 'attachment') {
+        if (!in_array($current_screen->id, array('attachment', 'upload'))) {
             return;
         }
 
@@ -171,7 +172,7 @@ class App
      * @param  array $fields Original fields
      * @return array         Fields to use
      */
-    public function formFields($fields)
+    public function formFields($fields, $post)
     {
         add_thickbox();
         wp_enqueue_media();
@@ -180,16 +181,20 @@ class App
         $mime =  mime_content_type($uploadDir['basedir'] . '/' . get_post_meta(get_the_id(), '_wp_attached_file', true));
 
         // Media replace button
-        $html = '<button type="button" class="button-secondary button-large" data-action="media-replacer-replace" data-mime="' . $mime . '">' . __('Replace media', 'media-replacer') . '</button>
+        $html = '<button type="button" class="button-secondary button-large" data-action="media-replacer-replace" data-mime="' . $mime . '" data-edit-link="' . get_edit_post_link($post->ID) . '">' . __('Replace media', 'media-replacer') . '</button>
                  <input type="hidden" name="media-replacer-replace-with">';
 
         // Revision button
-        $revisions = (array) get_post_meta(get_the_id(), self::$revisionMetaKey, true);
+        $revisions = get_post_meta($post->ID, self::$revisionMetaKey, true);
+        if (!is_array($revisions)) {
+            $revisions = array();
+        }
+
         $revisions = array_reverse($revisions, true);
 
-        if (count($revisions)) {
-            $html .= '<a href="#TB_inline?width=600&height=550&inlineId=media-replace-revisions-thickbox" class="thickbox button-secondary button-large">' . __('Media revisions', 'media-replacer') . '</a>';
-            $html .= '<div id="media-replace-revisions-thickbox" style="display:none;"><ul id="media-replace-revisions">';
+        if (count($revisions) > 0) {
+            $html .= '<a href="#TB_inline?width=600&height=550&inlineId=media-replace-revisions-' . $post->ID . '" class="thickbox button-secondary button-large" data-action="media-replacer-revisions" data-edit-link="' . get_edit_post_link($post->ID) . '">' . __('Media revisions', 'media-replacer') . '</a>';
+            $html .= '<div id="media-replace-revisions-thickbox" style="display:none;"><ul id="media-replace-revisions-' . $post->ID . '" class="media-replace-revisions">';
         }
 
         foreach ($revisions as $time => $path) {

@@ -17,7 +17,32 @@ gulp.task('sass-dist', function() {
             .pipe(sass())
             .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
             .pipe(rename({suffix: '.min'}))
-            .pipe(cssnano())
+            .pipe(cssnano({
+                mergeLonghand: false,
+                zindex: false,
+                discardComments: true,
+                colormin: true,
+                core: true,
+                discardEmpty: true,
+                discardOverridden: true,
+                filterOptimiser: true,
+                functionOptimiser: true,
+                mergeRules: true,
+                minifyFontValues: true,
+                minifyGradients: true,
+                minifyParams: true,
+                minifySelectors: true,
+                normalizeCharset: true,
+                normalizeUrl: true,
+                orderedValues: true,
+                reduceBackgroundRepeat: true,
+                reduceIdents: false,
+                reducePositions: true,
+                reduceTimingFunctions: true,
+                reduceTransforms: true,
+                svgo: true,
+                uniqueSelectors: true
+            }))
             .pipe(gulp.dest('dist/css'));
 });
 

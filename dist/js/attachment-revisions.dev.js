@@ -37,6 +37,10 @@ AttachmentRevisions.MediaUpload = (function ($) {
             $(this).addClass('selected');
             return;
         });
+
+        $('[data-action="media-replace-close-thickbox"]').on('click', function () {
+            $('#TB_closeWindowButton').trigger('click');
+        });
     };
 
     MediaUpload.prototype.openFileUploader = function(element) {

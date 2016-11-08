@@ -222,7 +222,12 @@ class App
         }
 
         if (count($revisions)) {
-            $html .= '</ul></div><input type="hidden" name="media-replace-restore">';
+            $html .= '</ul>
+                <div class="media-replace-revision-footer">
+                    <button type="button" class="button button-large" data-action="media-replace-close-thickbox">' . __('Cancel') . '</button>
+                    <button type="button" class="button button-large button-primary" data-action="media-replace-close-thickbox">' . __('Ok') . '</button>
+                </div>
+            </div><input type="hidden" name="media-replace-restore">';
         }
 
         $fields['media_replacer'] = array(

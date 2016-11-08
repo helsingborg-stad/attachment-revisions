@@ -29,6 +29,21 @@
     color: #fff;
 }
 
+#TB_ajaxContent {
+    position: relative;
+}
+
+.media-replace-revision-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #FCFCFC;
+    border-top: 1px solid #DDDDDD;
+    text-align: right;
+}
+
 #TB_overlay,
 #TB_window {
     z-index: 999999 !important;

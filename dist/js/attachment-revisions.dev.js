@@ -3,6 +3,7 @@ var AttachmentRevisions = AttachmentRevisions || {};
 AttachmentRevisions.MediaUpload = (function ($) {
 
     var _fileUploader = null;
+    var _shouldDeleteAttachment = true;
 
     function MediaUpload() {
         this.handleEvents();
@@ -10,19 +11,19 @@ AttachmentRevisions.MediaUpload = (function ($) {
 
     MediaUpload.prototype.handleEvents = function() {
         // Replace media button
-        $(document).on('click', '[data-action="media-replacer-replace"]', function () {
-            this.openFileUploader();
+        $(document).on('click', '[data-action="media-replacer-replace"]', function (e) {
+            this.openFileUploader(e.target);
         }.bind(this));
 
         // Revisions button
-        $(document).on('click', '[data-action="media-replacer-revisions"]', function () {
+        $(document).on('click', '[data-action="media-replacer-revisions"]', function (e) {
             if ($(this).parents('.media-modal').length) {
                 location.href = $(this).data('edit-link');
                 return false;
             }
         });
 
-        $(document).on('click', '.media-replace-revisions [data-restore]', function () {
+        $(document).on('click', '.media-replace-revisions [data-restore]', function (e) {
             if ($(this).hasClass('selected')) {
                 $('[name="media-replace-restore"]').val('');
                 $(this).removeClass('selected');
@@ -38,10 +39,10 @@ AttachmentRevisions.MediaUpload = (function ($) {
         });
     };
 
-    MediaUpload.prototype.openFileUploader = function() {
+    MediaUpload.prototype.openFileUploader = function(element) {
         // If opened from media modal redirect to edit post page
-        if ($(this).parents('.media-modal').length) {
-            location.href = $(this).data('edit-link');
+        if ($(element).parents('.media-modal').length) {
+            location.href = $(element).closest('[data-edit-link]').data('edit-link');
             return;
         }
 
@@ -82,10 +83,34 @@ AttachmentRevisions.MediaUpload = (function ($) {
             var selected = _fileUploader.state().get('selection').first().toJSON().id;
 
             if (typeof selected != 'undefined') {
+                _shouldDeleteAttachment = false;
                 $('[name="media-replacer-replace-with"]').val(selected).closest('form').submit();
             } else {
                 alert('You did not select a file. Media will not be replaced.');
             }
+        });
+
+        _fileUploader.on('close', function () {
+            var selected = null;
+
+            if (typeof _fileUploader.state().get('selection').first() != 'undefined') {
+                selected = _fileUploader.state().get('selection').first().toJSON().id;
+            }
+
+            if (!selected) {
+                return;
+            }
+
+            setTimeout(function () {
+                if (!_shouldDeleteAttachment) {
+                    return false;
+                }
+
+                $.post(ajaxurl, {action: 'attachment_revisions_remove_attachment', id: selected}, function (response) {
+                    console.log(response);
+                });
+            }, 1000);
+
         });
 
         this.openFileUploader();

@@ -33,3 +33,28 @@
 #TB_window {
     z-index: 999999 !important;
 }
+
+.post-type-attachment .media-modal {
+    .media-frame-router {
+        display: none;
+    }
+
+    .attachments-browser {
+        background-color: #F3F3F3;
+
+        .media-toolbar,
+        .uploader-inline,
+        .attachments {
+            display: none;
+        }
+
+        .media-sidebar {
+            position: static;
+            width: auto;
+        }
+    }
+
+    .compat-field-media_replacer {
+        display: none;
+    }
+}

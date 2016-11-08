@@ -28,3 +28,19 @@
 #TB_overlay,
 #TB_window {
   z-index: 999999 !important; }
+
+.post-type-attachment .media-modal .media-frame-router {
+  display: none; }
+
+.post-type-attachment .media-modal .attachments-browser {
+  background-color: #F3F3F3; }
+  .post-type-attachment .media-modal .attachments-browser .media-toolbar,
+  .post-type-attachment .media-modal .attachments-browser .uploader-inline,
+  .post-type-attachment .media-modal .attachments-browser .attachments {
+    display: none; }
+  .post-type-attachment .media-modal .attachments-browser .media-sidebar {
+    position: static;
+    width: auto; }
+
+.post-type-attachment .media-modal .compat-field-media_replacer {
+  display: none; }

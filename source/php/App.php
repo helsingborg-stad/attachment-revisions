@@ -16,6 +16,9 @@ class App
 
         add_filter('wp_get_attachment_image_src', array($this, 'preventCache'));
         add_filter('wp_prepare_attachment_for_js', array($this, 'jsPreventCache'));
+
+        // Ajax
+        add_action('wp_ajax_attachment_revisions_remove_attachment', array($this, 'removeAttachment'));
     }
 
     public function enqueueScripts()
@@ -98,7 +101,7 @@ class App
         update_post_meta($postId, self::$revisionMetaKey, $revisions);
 
         // Remove replacement attachment post
-        wp_delete_post($_POST['media-replacer-replace-with'], true);
+        $this->removeAttachment($_POST['media-replacer-replace-with']);
     }
 
     /**
@@ -261,5 +264,26 @@ class App
         }
 
         return $response;
+    }
+
+    public function removeAttachment($id = null)
+    {
+        if (defined('DOING_AJAX') && DOING_AJAX) {
+            if (isset($_POST['id'])) {
+                $id = $_POST['id'];
+            } else {
+                echo 'failure!';
+                wp_die();
+            }
+        }
+
+        wp_delete_post($id, true);
+
+        if (defined('DOING_AJAX') && DOING_AJAX) {
+            echo 'success';
+            wp_die();
+        }
+
+        return true;
     }
 }

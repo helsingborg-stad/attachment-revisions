@@ -245,7 +245,7 @@ class App
             return $attributes;
         }
 
-        if (strpos($attr[0], '?') === false) {
+        if (!isset($attr[0]) || strpos($attr[0], '?') === false) {
             $attributes[0] .= '?_t=' . time();
         } else {
             $attributes[0] .= '&_t=' . time();

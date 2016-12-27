@@ -1,0 +1,13 @@
+{
+    "name": "helsingborg-stad/attachment-revisions",
+    "description": "Enables attachment revisions and media file swapping",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kristoffer Svanmark",
+            "email": "kristoffer.svanmark@lexiconitkonsult.se"
+        }
+    ],
+    "require": {}
+}

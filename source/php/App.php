@@ -260,6 +260,10 @@ class App
             return $response;
         }
 
+        if (!isset($response['url']) || !isset($response['sizes'])) {
+            return $response;
+        }
+
         if (strpos($response['url'], '?') !== false) {
             $response['url'] .= (strpos($response['url'], '?') === false ? '?' : '&') . '_t=' . time();
         }

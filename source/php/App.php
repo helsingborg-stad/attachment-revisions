@@ -180,6 +180,11 @@ class App
      */
     public function formFields($fields, $post)
     {
+        // Bail if its not edit attachment page
+        if (!isset($_GET['post']) || $post->post_type !== 'attachment') {
+            return $fields;
+        }
+
         add_thickbox();
         wp_enqueue_media();
         $uploadDir = wp_upload_dir();

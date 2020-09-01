@@ -44,6 +44,7 @@ AttachmentRevisions.MediaUpload = (function ($) {
     };
 
     MediaUpload.prototype.openFileUploader = function(element) {
+        //$('.uploader-inline-content').show();
         // If opened from media modal redirect to edit post page
         if ($(element).parents('.media-modal').length) {
             location.href = $(element).closest('[data-edit-link]').data('edit-link');
@@ -82,13 +83,18 @@ AttachmentRevisions.MediaUpload = (function ($) {
                 })
             ]
         });
-
+        
+        wp.Uploader.queue.on('reset', function() {
+            $('.uploader-inline-content').hide();
+        });
+        
         _fileUploader.on('select', function () {
-            var selected = _fileUploader.state().get('selection').first().toJSON().id;
 
+            var selected = _fileUploader.state().get('selection').first().toJSON().id;
             if (typeof selected != 'undefined') {
                 _shouldDeleteAttachment = false;
                 $('[name="media-replacer-replace-with"]').val(selected).closest('form').submit();
+                
             } else {
                 alert('You did not select a file. Media will not be replaced.');
             }

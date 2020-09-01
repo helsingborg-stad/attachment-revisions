@@ -57,19 +57,24 @@
     .attachments-browser {
         background-color: #F3F3F3;
 
-        .media-toolbar,
         .uploader-inline,
         .attachments {
-            display: none;
+            display: block;
+            width:100%;
         }
-
+        .media-toolbar {
+            display:none;
+        }
         .media-sidebar {
             position: static;
             width: auto;
         }
+
     }
 
     .compat-field-media_replacer {
         display: none;
     }
 }
+
+

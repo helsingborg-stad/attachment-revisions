@@ -35,6 +35,7 @@ class App
             'mediaReplacer',
             array(
                 'newImage' => __("Upload new image", 'media-replacer'),
+                'replace' => __("Replace image", 'media-replacer'),
             )
         );
     }

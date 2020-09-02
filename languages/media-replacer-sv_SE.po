@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Attatchment Revisions\n"
-"POT-Creation-Date: 2020-09-02 10:04+0200\n"
-"PO-Revision-Date: 2020-09-02 10:11+0200\n"
+"POT-Creation-Date: 2020-09-02 10:17+0200\n"
+"PO-Revision-Date: 2020-09-02 10:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -22,21 +22,25 @@ msgstr ""
 
 #: source/php/App.php:37
 msgid "Upload new image"
-msgstr "Ladda upp ny bild"
+msgstr "Ladda upp ny media"
 
-#: source/php/App.php:202
+#: source/php/App.php:38
+msgid "Replace image"
+msgstr "Ersätt media"
+
+#: source/php/App.php:203
 msgid "Replace media"
 msgstr "Ersätt media"
 
-#: source/php/App.php:214
+#: source/php/App.php:215
 msgid "Media revisions"
 msgstr "Media revisioner"
 
-#: source/php/App.php:239
+#: source/php/App.php:240
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: source/php/App.php:240
+#: source/php/App.php:241
 msgid "Ok"
 msgstr ""
 
@@ -51,3 +55,6 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Kristoffer Svanmark"
 msgstr ""
+
+#~ msgid "replace"
+#~ msgstr "Ersätt bild"

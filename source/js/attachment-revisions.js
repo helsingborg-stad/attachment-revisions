@@ -82,7 +82,7 @@ AttachmentRevisions.MediaUpload = (function ($) {
         _fileUploader = wp.media({
             title: 'Select replacement file',
             button: {
-                text: 'Replace'
+                text: mediaReplacer.replace
             },
             multiple: false,
             states: [

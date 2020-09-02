@@ -22,7 +22,14 @@ AttachmentRevisions.MediaUpload = (function ($) {
                 return false;
             }
         });
-
+        
+        // New Image button
+        $(document).on('click', '.media-button-new', function (e) {
+            $('.uploader-inline-content').show();
+            $('.attachment-details.save-ready').hide();
+            $('.media-toolbar-primary .media-button-new').remove();
+        });
+        
         $(document).on('click', '.media-replace-revisions [data-restore]', function (e) {
             if ($(this).hasClass('selected')) {
                 $('[name="media-replace-restore"]').val('');
@@ -44,6 +51,7 @@ AttachmentRevisions.MediaUpload = (function ($) {
     };
 
     MediaUpload.prototype.openFileUploader = function(element) {
+        //$('.uploader-inline-content').show();
         // If opened from media modal redirect to edit post page
         if ($(element).parents('.media-modal').length) {
             location.href = $(element).closest('[data-edit-link]').data('edit-link');
@@ -62,6 +70,7 @@ AttachmentRevisions.MediaUpload = (function ($) {
 
         this.setupFileUploader();
     };
+    
 
     MediaUpload.prototype.setupFileUploader = function() {
         var query = wp.media.query({
@@ -73,7 +82,7 @@ AttachmentRevisions.MediaUpload = (function ($) {
         _fileUploader = wp.media({
             title: 'Select replacement file',
             button: {
-                text: 'Replace'
+                text: mediaReplacer.replace
             },
             multiple: false,
             states: [
@@ -82,13 +91,20 @@ AttachmentRevisions.MediaUpload = (function ($) {
                 })
             ]
         });
-
+        
+        wp.Uploader.queue.on('reset', function() {
+            $('.uploader-inline-content').hide();
+            $('.media-toolbar-primary').prepend('<button type="button" class="button media-button' +
+                ' button-primary button-large media-button-new">'+mediaReplacer.newImage+'</button>');
+        });
+        
         _fileUploader.on('select', function () {
-            var selected = _fileUploader.state().get('selection').first().toJSON().id;
 
+            var selected = _fileUploader.state().get('selection').first().toJSON().id;
             if (typeof selected != 'undefined') {
                 _shouldDeleteAttachment = false;
                 $('[name="media-replacer-replace-with"]').val(selected).closest('form').submit();
+                
             } else {
                 alert('You did not select a file. Media will not be replaced.');
             }

@@ -30,6 +30,13 @@ class App
 
         wp_enqueue_style('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/css/attachment-revisions.min.css', array(), '1.0.0');
         wp_enqueue_script('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/js/attachment-revisions.min.js', array(), '1.0.0', true);
+        wp_localize_script(
+            'media-replacer',
+            'mediaReplacer',
+            array(
+                'newImage' => __("Upload new image", 'media-replacer'),
+            )
+        );
     }
 
     public function restoreRevision($postId)

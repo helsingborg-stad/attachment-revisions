@@ -28,8 +28,16 @@ class App
             return;
         }
 
-        wp_enqueue_style('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/css/attachment-revisions.min.css', array(), '1.0.0');
-        wp_enqueue_script('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/js/attachment-revisions.min.js', array(), '1.0.0', true);
+        wp_enqueue_style('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/'
+            .\AttatchmentRevisions\Helper\CacheBust::name('css/attachment-revisions.css'),
+            array(), '1.0.0');
+
+
+        wp_enqueue_script('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/'
+            .\AttatchmentRevisions\Helper\CacheBust::name('js/attachment-revisions.js'),
+            array(), '1.0.0', true);
+
+
         wp_localize_script(
             'media-replacer',
             'mediaReplacer',

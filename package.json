@@ -114,7 +114,7 @@
     "react-hot-loader": "^4.8.0",
     "restify": "^8.5.1",
     "restify-router": "^0.5.1",
-    "stylelint": "^13.6.1",
+    "stylelint": "^15.6.0",
     "webpack-dev-server": "^3.11.0"
   },
   "browser": {

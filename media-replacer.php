@@ -24,14 +24,11 @@ define('ATTACHMENT_REVISIONS_TEMPLATE_PATH', ATTACHMENT_REVISIONS_PATH . 'templa
 
 load_plugin_textdomain('media-replacer', false, plugin_basename(dirname(__FILE__)) . '/languages');
 
-require_once ATTACHMENT_REVISIONS_PATH . 'source/php/Vendor/Psr4ClassLoader.php';
+// Autoload from plugin
+if (file_exists(ATTACHMENT_REVISIONS_PATH . 'vendor/autoload.php')) {
+    require_once ATTACHMENT_REVISIONS_PATH . 'vendor/autoload.php';
+}
 require_once ATTACHMENT_REVISIONS_PATH . 'Public.php';
-
-// Instantiate and register the autoloader
-$loader = new AttatchmentRevisions\Vendor\Psr4ClassLoader();
-$loader->addPrefix('AttatchmentRevisions', ATTACHMENT_REVISIONS_PATH);
-$loader->addPrefix('AttatchmentRevisions', ATTACHMENT_REVISIONS_PATH . 'source/php/');
-$loader->register();
 
 // Start application
 new AttatchmentRevisions\App();

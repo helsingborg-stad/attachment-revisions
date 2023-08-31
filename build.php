@@ -44,6 +44,7 @@ $removables = [
     '.git',
     '.gitignore',
     '.github',
+    '.gitattributes',
     'build.php',
     '.npmrc',
     'composer.json',
@@ -58,7 +59,9 @@ $removables = [
     './node_modules/',
     './source/sass/',
     './source/js/',
-    'LICENSE'
+    'LICENSE',
+    'babel.config.js',
+    'yarn.lock'
 ];
 
 $dirName = basename(dirname(__FILE__));

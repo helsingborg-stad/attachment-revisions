@@ -18,7 +18,7 @@ if(file_exists('composer.json')) {
     $buildCommands[] = 'composer dump-autoload';
 }
 
-/*
+
 //Run npm if package.json is found
 if(file_exists('package.json') && file_exists('package-lock.json')) {
     $buildCommands[] = 'npm ci --no-progress --no-audit';
@@ -27,10 +27,12 @@ if(file_exists('package.json') && file_exists('package-lock.json')) {
 }
 
 //Run build if package-lock.json is found
-if(file_exists('package-lock.json')) {
+if(file_exists('package-lock.json') && !file_exists('gulp.js')) {
     $buildCommands[] = 'npx --yes browserslist@latest --update-db';
     $buildCommands[] = 'npm run build';
-}*/ 
+} elseif(file_exists('package-lock.json') && file_exists('gulp.js')) {
+    //$buildCommands[] = 'gulp'; //Old. 
+}
 
 // Files and directories not suitable for prod to be removed.
 $removables = [
@@ -46,7 +48,12 @@ $removables = [
     'package-lock.json',
     'package.json',
     'phpunit.xml.dist',
-    'README.md'
+    'README.md',
+    'gulpfile.js',
+    './node_modules/',
+    './source/sass/',
+    './source/js/',
+    'LICENSE'
 ];
 
 $dirName = basename(dirname(__FILE__));

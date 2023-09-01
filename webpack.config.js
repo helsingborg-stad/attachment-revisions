@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
@@ -18,16 +20,17 @@ module.exports = {
      * Add your entry files here
      */
     entry: {
-        
-        'js/attachment-revisions': './source/js/attachment-revisions.js',
-        'css/attachment-revisions': './source/sass/attachment-revisions.scss',
+
+        'js/modularity-guides': './source/js/attachment-revisions.js',
+        'css/modularity-guides': './source/sass/attachment-revisions.scss',
+
         
     },
     /**
      * Output settings
      */
     output: {
-        filename: ifProduction('[name].[contenthash].min.js', '[name].[contenthash].min.js'),
+        filename: ifProduction('[name].[contenthash].js', '[name].js'),
         path: path.resolve(__dirname, 'dist'),
     },
     /**
@@ -38,27 +41,6 @@ module.exports = {
     },
     module: {
         rules: [
-            /**
-             * Babel
-             */
-            {
-                test: /\.jsx?/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        // Babel config here
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
-                        plugins: [
-                            '@babel/plugin-syntax-dynamic-import',
-                            '@babel/plugin-proposal-export-default-from',
-                            '@babel/plugin-proposal-class-properties',
-                            'react-hot-loader/babel',
-                        ],
-                    },
-                },
-            },
-            
             /**
              * Scripts
              */
@@ -109,6 +91,7 @@ module.exports = {
                     'import-glob-loader'
                 ],
             },
+        
         ],
     },
     plugins: removeEmpty([
@@ -149,7 +132,7 @@ module.exports = {
          * Output CSS files
          */
         new MiniCssExtractPlugin({
-            filename: ifProduction('[name].[contenthash].min.css', '[name][contenthash].min.css')
+            filename: ifProduction('[name].[contenthash:8].css', '[name].css')
         }),
         
         /**

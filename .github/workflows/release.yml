@@ -45,7 +45,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.6.0
+          node-version: 16
       - name: Inject access token in .npmrc
         run: | 
           echo "registry=https://npm.pkg.github.com/helsingborg-stad" >> ~/.npmrc

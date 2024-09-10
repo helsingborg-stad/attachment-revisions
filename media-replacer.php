@@ -4,7 +4,7 @@
  * Plugin Name:       Attatchment Revisions
  * Plugin URI:
  * Description:       Replace media files and keep revisions
- * Version: 3.0.5
+ * Version: 3.0.6
  * Author:            Kristoffer Svanmark
  * Author URI:
  * License:           MIT

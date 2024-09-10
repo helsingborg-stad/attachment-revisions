@@ -1,6 +1,6 @@
 {
     "name": "@helsingborg-stad/attachment-revisions",
-    "version": "3.0.4",
+    "version": "3.0.5",
     "description": "Attachment revisions",
     "main": "",
     "scripts": {
@@ -18,7 +18,9 @@
     "bugs": {
         "url": "https://github.com/helsingborg-stad/attachment-revisions/issues"
     },
-    "files": ["dist/"],
+    "files": [
+        "dist/"
+    ],
     "homepage": "https://github.com/helsingborg-stad/attachment-revisions",
     "browserslist": [
         "> 1%",

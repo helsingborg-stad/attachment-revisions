@@ -1,5 +1,5 @@
 {
-    "name": "attachment-revisions",
+    "name": "@helsingborg-stad/attachment-revisions",
     "version": "3.0.4",
     "description": "Attachment revisions",
     "main": "",
@@ -11,14 +11,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Svanmark/Wordpress-Plugin-Boilerplate.git"
+        "url": "https://github.com/helsingborg-stad/attachment-revisions.git"
     },
     "author": "Kristoffer Svanmark",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Svanmark/Wordpress-Plugin-Boilerplate/issues"
+        "url": "https://github.com/helsingborg-stad/attachment-revisions/issues"
     },
-    "homepage": "https://github.com/Svanmark/Wordpress-Plugin-Boilerplate",
+    "files": ["dist/"],
+    "homepage": "https://github.com/helsingborg-stad/attachment-revisions",
     "browserslist": [
         "> 1%",
         "not dead",

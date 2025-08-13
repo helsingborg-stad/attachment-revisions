@@ -21,8 +21,8 @@ module.exports = {
      */
     entry: {
 
-        'js/modularity-guides': './source/js/attachment-revisions.js',
-        'css/modularity-guides': './source/sass/attachment-revisions.scss',
+        'js/attachment-revisions': './source/js/attachment-revisions.js',
+        'css/attachment-revisions': './source/sass/attachment-revisions.scss',
 
         
     },

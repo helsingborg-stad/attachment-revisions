@@ -12,6 +12,8 @@
  * Text Domain:       media-replacer
  * Domain Path:       /languages
  */
+use WpService\Implementations\NativeWpService;
+use WpUtilService\WpUtilService;
 
  // Protect agains direct file access
 if (! defined('WPINC')) {
@@ -30,5 +32,8 @@ if (file_exists(ATTACHMENT_REVISIONS_PATH . 'vendor/autoload.php')) {
 }
 require_once ATTACHMENT_REVISIONS_PATH . 'Public.php';
 
+$wpService = new NativeWpService();
+$wpUtilService = new WpUtilService($wpService);
+
 // Start application
-new AttatchmentRevisions\App();
+new AttatchmentRevisions\App($wpUtilService->enqueue(__DIR__));

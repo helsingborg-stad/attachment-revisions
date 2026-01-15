@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AttatchmentRevisions;
+
+use WpUtilService\Features\Enqueue\EnqueueManager;
 
 class App
 {
     public static $revisionMetaKey = '_media-replace-revisions';
 
-    public function __construct()
-    {
+    public function __construct(
+        private EnqueueManager $wpEnqueue,
+    ) {
         add_action('admin_enqueue_scripts', array($this, 'enqueueScripts'));
         add_action('edit_attachment', array($this, 'replaceMedia'));
         add_action('edit_attachment', array($this, 'restoreRevision'));
@@ -28,24 +33,14 @@ class App
             return;
         }
 
-        wp_enqueue_style('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/'
-            .\AttatchmentRevisions\Helper\CacheBust::name('css/attachment-revisions.css'),
-            array(), '1.0.0');
-
-
-        wp_enqueue_script('media-replacer', ATTACHMENT_REVISIONS_URL . '/dist/'
-            .\AttatchmentRevisions\Helper\CacheBust::name('js/attachment-revisions.js'),
-            array(), '1.0.0', true);
-
-
-        wp_localize_script(
-            'media-replacer',
-            'mediaReplacer',
-            array(
-                'newImage' => __("Upload new image", 'media-replacer'),
-                'replace' => __("Replace image", 'media-replacer'),
-            )
-        );
+        $this->wpEnqueue
+            ->add('css/attachment-revisions.css', [], '1.0.0')
+            ->add('js/attachment-revisions.js', [], '1.0.0', true)
+            ->with()
+            ->translation('mediaReplacer', array(
+                'newImage' => __('Upload new image', 'media-replacer'),
+                'replace' => __('Replace image', 'media-replacer'),
+            ));
     }
 
     public function restoreRevision($postId)
@@ -205,7 +200,7 @@ class App
         wp_enqueue_media();
         $uploadDir = wp_upload_dir();
 
-        $mime =  mime_content_type($uploadDir['basedir'] . '/' . get_post_meta(get_the_id(), '_wp_attached_file', true));
+        $mime = mime_content_type($uploadDir['basedir'] . '/' . get_post_meta(get_the_id(), '_wp_attached_file', true));
 
         // Media replace button
         $html = '<button type="button" class="button-secondary button-large" data-action="media-replacer-replace" data-mime="' . $mime . '" data-edit-link="' . get_edit_post_link($post->ID) . '">' . __('Replace media', 'media-replacer') . '</button>
@@ -254,7 +249,7 @@ class App
         $fields['media_replacer'] = array(
             'label' => '',
             'input' => 'html',
-            'html' => $html
+            'html' => $html,
         );
 
         return $fields;

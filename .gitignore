@@ -40,6 +40,7 @@ Thumbs.db
 *.zip
 
 # ignore dist temp folder
+assets/
 dist/temp
 dist/.temp
 

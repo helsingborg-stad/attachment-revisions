@@ -23,9 +23,6 @@
     "bugs": {
         "url": "https://github.com/helsingborg-stad/attachment-revisions/issues"
     },
-    "files": [
-        "dist/"
-    ],
     "homepage": "https://github.com/helsingborg-stad/attachment-revisions",
     "browserslist": [
         "> 1%",

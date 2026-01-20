@@ -1,9 +1,6 @@
 # ignore node/grunt dependency directories
 node_modules/
 
-# ignore composer lock file
-composer.lock
-
 # ignore jekyll build directory
 /_site
 
@@ -40,6 +37,7 @@ Thumbs.db
 *.zip
 
 # ignore dist temp folder
+assets/
 dist/temp
 dist/.temp
 

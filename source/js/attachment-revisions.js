@@ -1,143 +1,143 @@
 var AttatchmentRevisions = {};
 var AttachmentRevisions = AttachmentRevisions || {};
-AttachmentRevisions.MediaUpload = (function ($) {
+AttachmentRevisions.MediaUpload = (($) => {
+	var _fileUploader = null;
+	var _shouldDeleteAttachment = true;
 
-    var _fileUploader = null;
-    var _shouldDeleteAttachment = true;
+	function MediaUpload() {
+		this.handleEvents();
+	}
 
-    function MediaUpload() {
-        this.handleEvents();
-    }
+	MediaUpload.prototype.handleEvents = function () {
+		// Replace media button
+		$(document).on(
+			'click',
+			'[data-action="media-replacer-replace"]',
+			function (e) {
+				this.openFileUploader(e.target);
+			}.bind(this),
+		);
 
-    MediaUpload.prototype.handleEvents = function() {
-        // Replace media button
-        $(document).on('click', '[data-action="media-replacer-replace"]', function (e) {
-            this.openFileUploader(e.target);
-        }.bind(this));
+		// Revisions button
+		$(document).on('click', '[data-action="media-replacer-revisions"]', function (e) {
+			if ($(this).parents('.media-modal').length) {
+				location.href = $(this).data('edit-link');
+				return false;
+			}
+		});
 
-        // Revisions button
-        $(document).on('click', '[data-action="media-replacer-revisions"]', function (e) {
-            if ($(this).parents('.media-modal').length) {
-                location.href = $(this).data('edit-link');
-                return false;
-            }
-        });
-        
-        // New Image button
-        $(document).on('click', '.media-button-new', function (e) {
-            $('.uploader-inline-content').show();
-            $('.attachment-details.save-ready').hide();
-            $('.media-toolbar-primary .media-button-new').remove();
-        });
-        
-        $(document).on('click', '.media-replace-revisions [data-restore]', function (e) {
-            if ($(this).hasClass('selected')) {
-                $('[name="media-replace-restore"]').val('');
-                $(this).removeClass('selected');
-                return;
-            }
+		// New Image button
+		$(document).on('click', '.media-button-new', (e) => {
+			$('.uploader-inline-content').show();
+			$('.attachment-details.save-ready').hide();
+			$('.media-toolbar-primary .media-button-new').remove();
+		});
 
-            $('.media-replace-revisions li.selected').removeClass('selected');
+		$(document).on('click', '.media-replace-revisions [data-restore]', function (e) {
+			if ($(this).hasClass('selected')) {
+				$('[name="media-replace-restore"]').val('');
+				$(this).removeClass('selected');
+				return;
+			}
 
-            var path = $(this).data('restore');
-            $('[name="media-replace-restore"]').val(path);
-            $(this).addClass('selected');
-            return;
-        });
+			$('.media-replace-revisions li.selected').removeClass('selected');
 
-        $('[data-action="media-replace-close-thickbox"]').on('click', function () {
-            $('#TB_closeWindowButton').trigger('click');
-        });
-    };
+			var path = $(this).data('restore');
+			$('[name="media-replace-restore"]').val(path);
+			$(this).addClass('selected');
+			return;
+		});
 
-    MediaUpload.prototype.openFileUploader = function(element) {
-        //$('.uploader-inline-content').show();
-        // If opened from media modal redirect to edit post page
-        if ($(element).parents('.media-modal').length) {
-            location.href = $(element).closest('[data-edit-link]').data('edit-link');
-            return;
-        }
+		$('[data-action="media-replace-close-thickbox"]').on('click', () => {
+			$('#TB_closeWindowButton').trigger('click');
+		});
+	};
 
-        if (_fileUploader) {
-            // Open the modal
-            _fileUploader.open();
+	MediaUpload.prototype.openFileUploader = function (element) {
+		//$('.uploader-inline-content').show();
+		// If opened from media modal redirect to edit post page
+		if ($(element).parents('.media-modal').length) {
+			location.href = $(element).closest('[data-edit-link]').data('edit-link');
+			return;
+		}
 
-            // Default to upload file tab
-            $('.media-router a:first-of-type').trigger('click');
+		if (_fileUploader) {
+			// Open the modal
+			_fileUploader.open();
 
-            return;
-        }
+			// Default to upload file tab
+			$('.media-router a:first-of-type').trigger('click');
 
-        this.setupFileUploader();
-    };
-    
+			return;
+		}
 
-    MediaUpload.prototype.setupFileUploader = function() {
-        var query = wp.media.query({
-            orderby: 'date',
-            query: true,
-            uploadedTo: -1
-        });
+		this.setupFileUploader();
+	};
 
-        _fileUploader = wp.media({
-            title: 'Select replacement file',
-            button: {
-                text: mediaReplacer.replace
-            },
-            multiple: false,
-            states: [
-                new wp.media.controller.Library({
-                    library: query
-                })
-            ]
-        });
-        
-        wp.Uploader.queue.on('reset', function() {
-            $('.uploader-inline-content').hide();
-            $('.media-toolbar-primary').prepend('<button type="button" class="button media-button' +
-                ' button-primary button-large media-button-new">'+mediaReplacer.newImage+'</button>');
-        });
-        
-        _fileUploader.on('select', function () {
+	MediaUpload.prototype.setupFileUploader = function () {
+		var query = wp.media.query({
+			orderby: 'date',
+			query: true,
+			uploadedTo: -1,
+		});
 
-            var selected = _fileUploader.state().get('selection').first().toJSON().id;
-            if (typeof selected != 'undefined') {
-                _shouldDeleteAttachment = false;
-                $('[name="media-replacer-replace-with"]').val(selected).closest('form').submit();
-                
-            } else {
-                alert('You did not select a file. Media will not be replaced.');
-            }
-        });
+		_fileUploader = wp.media({
+			title: 'Select replacement file',
+			button: {
+				text: mediaReplacer.replace,
+			},
+			multiple: false,
+			states: [
+				new wp.media.controller.Library({
+					library: query,
+				}),
+			],
+		});
 
-        _fileUploader.on('close', function () {
-            var selected = null;
+		wp.Uploader.queue.on('reset', () => {
+			$('.uploader-inline-content').hide();
+			$('.media-toolbar-primary').prepend(
+				'<button type="button" class="button media-button' +
+					' button-primary button-large media-button-new">' +
+					mediaReplacer.newImage +
+					'</button>',
+			);
+		});
 
-            if (typeof _fileUploader.state().get('selection').first() != 'undefined') {
-                selected = _fileUploader.state().get('selection').first().toJSON().id;
-            }
+		_fileUploader.on('select', () => {
+			var selected = _fileUploader.state().get('selection').first().toJSON().id;
+			if (typeof selected != 'undefined') {
+				_shouldDeleteAttachment = false;
+				$('[name="media-replacer-replace-with"]').val(selected).closest('form').submit();
+			} else {
+				alert('You did not select a file. Media will not be replaced.');
+			}
+		});
 
-            if (!selected) {
-                return;
-            }
+		_fileUploader.on('close', () => {
+			var selected = null;
 
-            setTimeout(function () {
-                if (!_shouldDeleteAttachment) {
-                    return false;
-                }
+			if (typeof _fileUploader.state().get('selection').first() != 'undefined') {
+				selected = _fileUploader.state().get('selection').first().toJSON().id;
+			}
 
-                $.post(ajaxurl, {action: 'attachment_revisions_remove_attachment', id: selected}, function (response) {
-                    console.log(response);
-                });
-            }, 1000);
+			if (!selected) {
+				return;
+			}
 
-        });
+			setTimeout(() => {
+				if (!_shouldDeleteAttachment) {
+					return false;
+				}
 
-        this.openFileUploader();
-    };
+				$.post(ajaxurl, { action: 'attachment_revisions_remove_attachment', id: selected }, (response) => {
+					console.log(response);
+				});
+			}, 1000);
+		});
 
+		this.openFileUploader();
+	};
 
-    return new MediaUpload();
-
+	return new MediaUpload();
 })(jQuery);
-
